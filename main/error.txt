@@ -1,0 +1,1 @@
+The default command currently resets heading to a previous setpoint when the trigger is released, causing unintended rotation. I propose updating it to lock the heading at the current orientation when the trigger ends and maintain that until the right stick is moved beyond its deadband. I'll explain this idea clearly and ask for confirmation before making any code changes.
