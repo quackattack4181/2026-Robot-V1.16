@@ -88,4 +88,29 @@ public final class Constants
     public static final double KD = 0.0;
     public static final double KF = 0.00018;
   }
+
+  public static final class IntakeConstants
+  {
+    public static final int ROLLER_MOTOR_ID = 30;
+    public static final int PIVOT_MOTOR_ID = 31;
+
+    public static final int PIVOT_ENCODER_PWM_PORT = 1;
+    public static final double PIVOT_ENCODER_OFFSET_ROTATIONS = 0.0;
+
+    public static final boolean ROLLER_INVERTED = false;
+    public static final boolean PIVOT_INVERTED = false;
+
+    public static final int ROLLER_CURRENT_LIMIT_AMPS = 40;
+    public static final int PIVOT_CURRENT_LIMIT_AMPS = 40;
+
+    public static final double PIVOT_KP = 0.02;
+    public static final double PIVOT_KI = 0.0;
+    public static final double PIVOT_KD = 0.001;
+    public static final double PIVOT_MAX_OUTPUT = 0.6;
+    public static final double PIVOT_TOLERANCE_DEGREES = 3.0;
+
+    public static final double STOWED_DEGREES = 100.0;
+    public static final double INTAKE_DEGREES = -4.0;
+    public static final double AGITATE_DEGREES = 20.0;
+  }
 }
