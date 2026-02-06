@@ -91,8 +91,8 @@ public final class Constants
 
   public static final class IntakeConstants
   {
-    public static final int ROLLER_MOTOR_ID = 30;
-    public static final int PIVOT_MOTOR_ID = 31;
+    public static final int ROLLER_MOTOR_ID = 31;
+    public static final int PIVOT_MOTOR_ID = 30;
 
     public static final int PIVOT_ENCODER_PWM_PORT = 1;
     public static final double PIVOT_ENCODER_OFFSET_ROTATIONS = 0.0;
