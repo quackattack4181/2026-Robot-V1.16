@@ -69,8 +69,6 @@ public class Intake extends SubsystemBase implements AutoCloseable {
     pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     pivotEncoder = new DutyCycleEncoder(IntakeConstants.PIVOT_ENCODER_PWM_PORT);
-    pivotEncoder.setDistancePerRotation(360.0);
-    pivotEncoder.setPositionOffset(IntakeConstants.PIVOT_ENCODER_OFFSET_ROTATIONS);
 
     pivotController = new PIDController(
         IntakeConstants.PIVOT_KP,
@@ -91,7 +89,8 @@ public class Intake extends SubsystemBase implements AutoCloseable {
   }
 
   public double getPivotAngleDegrees() {
-    return normalizeAngle(pivotEncoder.getDistance());
+    double rotations = pivotEncoder.getAbsolutePosition() - IntakeConstants.PIVOT_ENCODER_OFFSET_ROTATIONS;
+    return normalizeAngle(rotations * 360.0);
   }
 
   public boolean atTarget() {
