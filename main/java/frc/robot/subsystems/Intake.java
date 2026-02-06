@@ -89,7 +89,7 @@ public class Intake extends SubsystemBase implements AutoCloseable {
   }
 
   public double getPivotAngleDegrees() {
-    double rotations = pivotEncoder.getAbsolutePosition() - IntakeConstants.PIVOT_ENCODER_OFFSET_ROTATIONS;
+    double rotations = pivotEncoder.get() - IntakeConstants.PIVOT_ENCODER_OFFSET_ROTATIONS;
     return normalizeAngle(rotations * 360.0);
   }
 
