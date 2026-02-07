@@ -148,8 +148,8 @@ public class RobotContainer {
 
     driverOne.b().whileTrue(intake.intakeCommand());
     driverOne.leftBumper().whileTrue(intake.agitateCommand());
-    driverOne.x().onTrue(intake.runOnce(() -> intake.setPosition(Intake.Position.STOWED)));
-    driverOne.y().onTrue(intake.runOnce(() -> intake.setPosition(Intake.Position.INTAKE)));
+    driverOne.x().onTrue(intake.runOnce(() -> intake.disablePivotControl()));
+    driverOne.y().onTrue(intake.runOnce(() -> intake.disablePivotControl()));
     driverOne.rightBumper().whileTrue(intake.manualRollerCommand(0.6));
     driverOne.povUp().whileTrue(intake.manualPivotCommand(0.3));
     driverOne.povDown().whileTrue(intake.manualPivotCommand(-0.3));
