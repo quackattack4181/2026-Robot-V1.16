@@ -51,6 +51,8 @@ public class Intake extends SubsystemBase implements AutoCloseable {
   private final PIDController pivotController;
 
   private double targetAngleDegrees = Position.STOWED.degrees();
+  private boolean manualPivotEnabled = false;
+  private double manualPivotOutput = 0.0;
 
   public Intake() {
     rollerMotor = new SparkFlex(IntakeConstants.ROLLER_MOTOR_ID, MotorType.kBrushless);
@@ -88,6 +90,16 @@ public class Intake extends SubsystemBase implements AutoCloseable {
     rollerMotor.set(speed.percentOutput);
   }
 
+  public void setManualPivotOutput(double percentOutput) {
+    manualPivotEnabled = true;
+    manualPivotOutput = percentOutput;
+  }
+
+  public void clearManualPivot() {
+    manualPivotEnabled = false;
+    manualPivotOutput = 0.0;
+  }
+
   public double getPivotAngleDegrees() {
     double rotations = pivotEncoder.get() - IntakeConstants.PIVOT_ENCODER_OFFSET_ROTATIONS;
     return normalizeAngle(rotations * 360.0);
@@ -121,9 +133,23 @@ public class Intake extends SubsystemBase implements AutoCloseable {
         });
   }
 
+  public Command manualPivotCommand(double percentOutput) {
+    return startEnd(
+        () -> setManualPivotOutput(percentOutput),
+        this::clearManualPivot);
+  }
+
+  public Command manualRollerCommand(double percentOutput) {
+    return startEnd(
+        () -> rollerMotor.set(percentOutput),
+        () -> rollerMotor.set(0.0));
+  }
+
   @Override
   public void periodic() {
-    double output = pivotController.calculate(getPivotAngleDegrees(), targetAngleDegrees);
+    double output = manualPivotEnabled
+        ? manualPivotOutput
+        : pivotController.calculate(getPivotAngleDegrees(), targetAngleDegrees);
     output = MathUtil.clamp(output, -IntakeConstants.PIVOT_MAX_OUTPUT, IntakeConstants.PIVOT_MAX_OUTPUT);
     pivotMotor.set(output);
 
