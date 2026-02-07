@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.VisionConstants;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
   "swerve/neo"));
   private final Shooter shooter = new Shooter();
+  private final Intake intake = new Intake();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverOne = new CommandXboxController(0);
@@ -143,6 +145,14 @@ public class RobotContainer {
                  VisionConstants.LIMELIGHT_NAME));
 
     driverOne.rightTrigger(0.5).whileTrue(shooter.runShooterRpm());
+
+    driverOne.b().whileTrue(intake.intakeCommand());
+    driverOne.leftBumper().whileTrue(intake.agitateCommand());
+    driverOne.x().onTrue(intake.runOnce(() -> intake.disablePivotControl()));
+    driverOne.y().onTrue(intake.runOnce(() -> intake.disablePivotControl()));
+    driverOne.rightBumper().whileTrue(intake.manualRollerCommand(0.6));
+    driverOne.povUp().whileTrue(intake.manualPivotCommand(0.3));
+    driverOne.povDown().whileTrue(intake.manualPivotCommand(-0.3));
 
 
 
